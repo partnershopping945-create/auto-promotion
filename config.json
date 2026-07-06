@@ -1,0 +1,17 @@
+{
+  "csvPath": "data/products.csv",
+  "statePath": "state/state.json",
+  "outputDir": "output",
+  "musicDir": "assets/music",
+  "cooldownDays": 7,
+  "extraCommissionMultiplier": 2,
+  "reelDurationSeconds": 9,
+  "keepLastOutputs": 12,
+  "slots": {
+    "pagi": "REELS",
+    "siang": "STORIES",
+    "malam": "REELS"
+  },
+  "captionTemplate": "{teksPromosi}\n\n🛒 Link produk: {link}\n(atau klik link di bio ya!)\n\n#shopeeaffiliate #shopeehaul #racunshopee #{keywordTag} #promoshopee #diskonshopee",
+  "linkInBioNote": "Link tidak bisa diklik di caption Instagram. Taruh link terbaru di bio, atau pakai landing page gratis (lihat PANDUAN_SETUP.md bagian 7)."
+}

@@ -1,0 +1,88 @@
+# =====================================================================
+# AUTO-POST PROMOSI SHOPEE KE INSTAGRAM — jalan otomatis 3x sehari
+#
+# Jadwal (cron GitHub pakai UTC; WIB = UTC+7):
+#   01:00 UTC = 08:00 WIB (pagi  -> Reels)
+#   05:30 UTC = 12:30 WIB (siang -> Story)
+#   12:00 UTC = 19:00 WIB (malam -> Reels)
+#
+# Bisa juga dijalankan manual: tab Actions > Auto Post > Run workflow
+#
+# Secrets yang WAJIB diisi (Settings > Secrets and variables > Actions):
+#   IG_USER_ID      -> Instagram Business Account ID
+#   IG_ACCESS_TOKEN -> Long-lived / System User access token
+# =====================================================================
+
+name: Auto Post Instagram
+
+on:
+  schedule:
+    - cron: "0 1 * * *"    # 08:00 WIB
+    - cron: "30 5 * * *"   # 12:30 WIB
+    - cron: "0 12 * * *"   # 19:00 WIB
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot posting (kosongkan untuk deteksi otomatis dari jam)"
+        required: false
+        type: choice
+        options: ["", "pagi", "siang", "malam"]
+      dry_run:
+        description: "Dry run (generate media saja, tanpa publish)"
+        required: false
+        type: boolean
+        default: false
+
+# Jangan sampai dua run jalan bersamaan (rebutan git push)
+concurrency:
+  group: autopost
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install renderer SVG (librsvg)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin fonts-dejavu-core
+        # Tidak ada dependency npm sama sekali — hanya librsvg untuk render gambar.
+        # ffmpeg sudah preinstalled di runner ubuntu-latest.
+
+      - name: Setup git identity (untuk commit media & state)
+        run: |
+          git config user.name "auto-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Post ke Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          SLOT: ${{ inputs.slot }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node src/index.js --dry-run
+          else
+            node src/index.js
+          fi
+
+      - name: Upload media sebagai artifact (arsip/debug)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-${{ github.run_id }}
+          path: output/
+          retention-days: 7
+          if-no-files-found: ignore

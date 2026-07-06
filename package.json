@@ -1,0 +1,17 @@
+{
+  "name": "shopee-affiliate-autopost",
+  "version": "2.0.0",
+  "description": "Auto-post promosi Shopee Affiliate ke Instagram (Reels/Story) via GitHub Actions + Instagram Graph API. 100% gratis, tanpa Airtable/Make.com/ManyChat.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "post": "node src/index.js",
+    "dry-run": "node src/index.js --dry-run",
+    "rank": "node src/rank.js",
+    "refresh-token": "node src/refresh-token.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=20"
+  }
+}
