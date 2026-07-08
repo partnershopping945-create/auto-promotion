@@ -143,14 +143,14 @@ function buildGradientSvg(product) {
   <text x="540" y="${nameStartYHero}" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
         font-size="${nameSize}" font-weight="bold" fill="#ffffff">${nameTspans}</text>
   <text x="540" y="1250" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-        font-size="52" fill="#ffffff" opacity="0.95">Koleksi terbaru &amp; harga spesial ✨</text>
+        font-size="52" fill="#ffffff" opacity="0.95">Buruan diserbu sebelum kehabisan! ✨</text>
   <g transform="translate(540 1520)">
     <rect x="-440" y="-78" width="880" height="156" rx="78" fill="#ffffff"/>
     <text x="0" y="20" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-          font-size="56" font-weight="bold" fill="${c1}">➜ Cek link di bio!</text>
+          font-size="56" font-weight="bold" fill="${c1}">➜ LINK ADA DI BIO</text>
   </g>
   <text x="540" y="1810" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-        font-size="38" fill="#ffffff" opacity="0.85">s.shopee.co.id • cek caption untuk detail</text>
+        font-size="38" fill="#ffffff" opacity="0.85">Ketuk foto profil di atas, klik link di BIO</text>
 </svg>`;
 }
 
@@ -188,15 +188,15 @@ function buildPhotoSvg(product, photoDataUri) {
   <text x="540" y="${nameStartY}" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
         font-size="${nameSize}" font-weight="bold" fill="#ffffff">${nameTspans}</text>
   <text x="540" y="1540" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-        font-size="46" fill="#ffffff" opacity="0.95">Koleksi terbaru &amp; harga spesial ✨</text>
+        font-size="46" fill="#ffffff" opacity="0.95">Buruan diserbu sebelum kehabisan! ✨</text>
 
   <g transform="translate(540 1690)">
     <rect x="-430" y="-72" width="860" height="144" rx="72" fill="#ffffff"/>
     <text x="0" y="18" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-          font-size="52" font-weight="bold" fill="${c1}">➜ Cek link di komen &amp; bio!</text>
+          font-size="52" font-weight="bold" fill="${c1}">➜ LINK ADA DI BIO</text>
   </g>
   <text x="540" y="1850" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-        font-size="34" fill="#ffffff" opacity="0.8">s.shopee.co.id • link di komentar</text>
+        font-size="34" fill="#ffffff" opacity="0.8">Ketuk foto profil di atas, klik link di BIO</text>
 </svg>`;
 }
 
