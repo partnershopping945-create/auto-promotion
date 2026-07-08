@@ -70,6 +70,7 @@ jobs:
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           SLOT: ${{ inputs.slot }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
