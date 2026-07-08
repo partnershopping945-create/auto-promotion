@@ -38,7 +38,7 @@ export async function createContainer({ igUserId, accessToken, mediaType, mediaU
     if (mediaType === "REELS") {
         params.set("media_type", "REELS");
         params.set("video_url", mediaUrl);
-        params.set("share_to_feed", "true");
+        params.set("share_to_feed", "false");
         if (caption) params.set("caption", caption.slice(0, 2200));
     } else if (mediaType === "STORIES") {
         params.set("media_type", "STORIES");
