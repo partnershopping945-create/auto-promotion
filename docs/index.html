@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Partner Shopping — Link Belanja Shopee</title>
+<meta name="description" content="Racun Shopee tiap hari! 🔥 Semua toko pilihan ada di sini — tinggal ketuk &amp; checkout 🛒">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root { --shopee:#ee4d2d; --shopee2:#ff7337; --bg:#fff5f2; --ink:#2b2b2b; --muted:#8a8a8a; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); line-height:1.45; }
+  .wrap { max-width:560px; margin:0 auto; padding:0 16px 48px; }
+  header { text-align:center; padding:34px 16px 22px; background:linear-gradient(135deg,var(--shopee),var(--shopee2)); color:#fff; border-radius:0 0 26px 26px; box-shadow:0 6px 20px rgba(238,77,45,.28); }
+  .avatar { width:76px; height:76px; border-radius:50%; background:#fff; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:38px; box-shadow:0 4px 12px rgba(0,0,0,.15); }
+  header h1 { font-size:22px; font-weight:800; letter-spacing:.2px; }
+  header .handle { opacity:.92; font-size:14px; margin-top:2px; }
+  header p.tag { font-size:13.5px; opacity:.95; margin:10px auto 0; max-width:340px; }
+  .search { margin:18px 0 12px; position:sticky; top:8px; z-index:5; }
+  .search input { width:100%; padding:13px 16px; border:2px solid #ffd9cd; border-radius:14px; font-size:15px; background:#fff; outline:none; transition:border-color .15s; }
+  .search input:focus { border-color:var(--shopee); }
+  .chips { display:flex; gap:8px; overflow-x:auto; padding:4px 0 12px; scrollbar-width:none; }
+  .chips::-webkit-scrollbar { display:none; }
+  .chip { flex:0 0 auto; padding:8px 16px; border:none; border-radius:999px; background:#fff; color:var(--ink); font-size:13.5px; font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,.06); cursor:pointer; }
+  .chip.active { background:var(--shopee); color:#fff; }
+  .count { font-size:12.5px; color:var(--muted); margin:2px 2px 12px; }
+  .card { display:flex; align-items:center; gap:13px; background:#fff; border-radius:16px; padding:13px 14px; margin-bottom:11px; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:transform .12s; }
+  .card:active { transform:scale(.985); }
+  .ic { flex:0 0 auto; width:46px; height:46px; border-radius:12px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:24px; }
+  .info { flex:1 1 auto; min-width:0; }
+  .info .nm { font-weight:700; font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .info .ct { font-size:12px; color:var(--muted); margin-top:1px; }
+  .buy { flex:0 0 auto; background:linear-gradient(135deg,var(--shopee),var(--shopee2)); color:#fff; text-decoration:none; font-weight:700; font-size:13px; padding:9px 15px; border-radius:11px; box-shadow:0 3px 8px rgba(238,77,45,.3); white-space:nowrap; }
+  .empty { text-align:center; color:var(--muted); padding:40px 0; font-size:14px; }
+  .fresh { margin:18px 0 6px; background:linear-gradient(135deg,#fff3ee,#ffe6dc); border:2px solid #ffd0bf; border-radius:18px; padding:14px 13px 6px; }
+  .fresh-h { font-weight:800; font-size:14px; color:var(--shopee); margin:0 2px 10px; }
+  .fcard { display:flex; align-items:center; gap:11px; background:#fff; border-radius:13px; padding:11px 12px; margin-bottom:9px; text-decoration:none; color:var(--ink); box-shadow:0 2px 6px rgba(238,77,45,.10); }
+  .fcard .fic { flex:0 0 auto; width:38px; height:38px; border-radius:10px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .fcard .fnm { flex:1 1 auto; min-width:0; font-weight:700; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .fcard .fbuy { flex:0 0 auto; color:var(--shopee); font-weight:800; font-size:12.5px; }
+  footer { text-align:center; color:var(--muted); font-size:11.5px; margin-top:26px; line-height:1.7; }
+  footer a { color:var(--shopee); }
+</style>
+</head>
+<body>
+<header>
+  <div class="avatar">🛍️</div>
+  <h1>Partner Shopping</h1>
+  
+  <p class="tag">Racun Shopee tiap hari! 🔥 Semua toko pilihan ada di sini — tinggal ketuk &amp; checkout 🛒</p>
+</header>
+<div class="wrap">
+  
+  <div class="fresh">
+    <div class="fresh-h">✨ Baru ditambahkan</div>
+    <a class="fcard" href="https://s.shopee.co.id/9Uze1BsxQe" target="_blank" rel="noopener nofollow">
+      <span class="fic">🌸</span>
+      <span class="fnm">Aulia_Bunga</span>
+      <span class="fbuy">Belanja →</span>
+    </a><a class="fcard" href="https://s.shopee.co.id/1BKW5sOgL1" target="_blank" rel="noopener nofollow">
+      <span class="fic">🌸</span>
+      <span class="fnm">SETIA BUNGA REAL</span>
+      <span class="fbuy">Belanja →</span>
+    </a><a class="fcard" href="https://s.shopee.co.id/1115tZPJfy" target="_blank" rel="noopener nofollow">
+      <span class="fic">🌸</span>
+      <span class="fnm">BUNGA DAHLIA STORE</span>
+      <span class="fbuy">Belanja →</span>
+    </a>
+  </div>
+  <div class="search"><input id="q" type="search" placeholder="🔍 Cari toko..." autocomplete="off"></div>
+  <div class="chips"><button class="chip active" data-cat="Semua">Semua</button><button class="chip" data-cat="Fashion">Fashion</button><button class="chip" data-cat="Aksesoris">Aksesoris</button><button class="chip" data-cat="Bunga">Bunga</button><button class="chip" data-cat="Lainnya">Lainnya</button></div>
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+  <div class="empty" id="empty" style="display:none">Toko tidak ditemukan 🙈</div>
+</div>
+<footer>
+  Semua tombol langsung menuju Shopee. Belanja aman lewat aplikasi Shopee.<br>
+  Diperbarui: 8 Juli 2026 · 100 toko
+</footer>
+<script>
+  const DATA = [{"nama":"Lily's Accessories","link":"https://s.shopee.co.id/1gGmgnMmIr","cat":"Aksesoris"},{"nama":"Kilau Aksesoris","link":"https://s.shopee.co.id/1VxMUUNPdq","cat":"Aksesoris"},{"nama":"Miracle Macbook Accessories","link":"https://s.shopee.co.id/1LdwIBO2yp","cat":"Aksesoris"},{"nama":"ANDINI_ACCESORIES","link":"https://s.shopee.co.id/2VptgKJbc4","cat":"Aksesoris"},{"nama":"Pasar Bunga Rawa Belong","link":"https://s.shopee.co.id/qhfhGPx0v","cat":"Bunga"},{"nama":"Sopinia aksesoris","link":"https://s.shopee.co.id/2LWTU1KEx3","cat":"Aksesoris"},{"nama":"Auraaksesoris.id","link":"https://s.shopee.co.id/2BD3HiKsI2","cat":"Aksesoris"},{"nama":"Toko aksesoris waita","link":"https://s.shopee.co.id/20td5PLVd1","cat":"Aksesoris"},{"nama":"DS Aksessoris","link":"https://s.shopee.co.id/W4pIeRDfk","cat":"Lainnya"},{"nama":"xavier aksesoris","link":"https://s.shopee.co.id/LlP6LRr0j","cat":"Aksesoris"},{"nama":"Nadini_accesories","link":"https://s.shopee.co.id/BRyu2SULi","cat":"Aksesoris"},{"nama":"LAURA&CO GROSIR AKSESORIS","link":"https://s.shopee.co.id/18YhjT7gh","cat":"Aksesoris"},{"nama":"RIDEMAX ACCESSORIES","link":"https://s.shopee.co.id/1BKW5sOgJw","cat":"Aksesoris"},{"nama":"FRD AKSESORIS","link":"https://s.shopee.co.id/1115tZPJev","cat":"Aksesoris"},{"nama":"AKSESORIS MOBIL SHOP","link":"https://s.shopee.co.id/qhfhGPwzu","cat":"Aksesoris"},{"nama":"Toko Aksesoris Agustus","link":"https://s.shopee.co.id/gOFUxQaKt","cat":"Aksesoris"},{"nama":"shotgo accessories","link":"https://s.shopee.co.id/9KgDostaka","cat":"Aksesoris"},{"nama":"Nexa Aksesoris","link":"https://s.shopee.co.id/9Uze1BsxPd","cat":"Aksesoris"},{"nama":"Toko Ganjil Accessories","link":"https://s.shopee.co.id/9fJ4DUsK4g","cat":"Aksesoris"},{"nama":"Raafi aksesoris","link":"https://s.shopee.co.id/9pcUPnrgjj","cat":"Aksesoris"},{"nama":"Aksesoris store medan","link":"https://s.shopee.co.id/9zvuc6r3Om","cat":"Aksesoris"},{"nama":"AksesorisOriginal","link":"https://s.shopee.co.id/AAFKoPqQ3p","cat":"Aksesoris"},{"nama":"Toko aksesoris husnah","link":"https://s.shopee.co.id/AKYl0ipmis","cat":"Aksesoris"},{"nama":"IMMORTAL GAMING Accesories","link":"https://s.shopee.co.id/AUsBD1p9Nv","cat":"Aksesoris"},{"nama":"Toko Baru Aksesoriss","link":"https://s.shopee.co.id/80AqEQyfSS","cat":"Aksesoris"},{"nama":"En flower store","link":"https://s.shopee.co.id/8AUGQjy27V","cat":"Bunga"},{"nama":"BUNGA DAHLIA STORE","link":"https://s.shopee.co.id/1115tZPJfy","cat":"Bunga"},{"nama":"SETIA BUNGA REAL","link":"https://s.shopee.co.id/1BKW5sOgL1","cat":"Bunga"},{"nama":"Amee Fashion Official Store","link":"https://s.shopee.co.id/4Ay7fODGE6","cat":"Fashion"},{"nama":"SJpop Fashion Official Shop","link":"https://s.shopee.co.id/3qLHGmEWuC","cat":"Fashion"},{"nama":"FLOWERGLASS Official Store","link":"https://s.shopee.co.id/8Kngd2xOmY","cat":"Bunga"},{"nama":"Cilmi Flower Fhasion","link":"https://s.shopee.co.id/8V76pLwlRb","cat":"Bunga"},{"nama":"Aulia_Bunga","link":"https://s.shopee.co.id/9Uze1BsxQe","cat":"Bunga"},{"nama":"iannflowers","link":"https://s.shopee.co.id/8fQX1ew86e","cat":"Bunga"},{"nama":"INK flowers","link":"https://s.shopee.co.id/8pjxDxvUlh","cat":"Bunga"},{"nama":"roses flower supply","link":"https://s.shopee.co.id/903NQGurQk","cat":"Bunga"},{"nama":"Flower  Shop","link":"https://s.shopee.co.id/9AMncZuE5n","cat":"Bunga"},{"nama":"AGM FASHION Official Store","link":"https://s.shopee.co.id/3g1r4TFAFB","cat":"Fashion"},{"nama":"Clarin flowers","link":"https://s.shopee.co.id/6ffSdz3kAK","cat":"Bunga"},{"nama":"Flower&Jewelry","link":"https://s.shopee.co.id/6pysqI36pN","cat":"Bunga"},{"nama":"Flower  Shop_Toko 2","link":"https://s.shopee.co.id/70IJ2b2TUQ","cat":"Bunga"},{"nama":"Rania_Flowers","link":"https://s.shopee.co.id/7AbjEu1q9T","cat":"Bunga"},{"nama":"FashioNex Official Store","link":"https://s.shopee.co.id/6AjC345eAQ","cat":"Fashion"},{"nama":"Vellora.flower","link":"https://s.shopee.co.id/7Kv9RD1CoW","cat":"Bunga"},{"nama":"Laila Flowers","link":"https://s.shopee.co.id/7VEZdW0ZTZ","cat":"Bunga"},{"nama":"Flower Wallet Store","link":"https://s.shopee.co.id/7fXzpozw8c","cat":"Bunga"},{"nama":"Flowers.Kids","link":"https://s.shopee.co.id/7prQ27zInf","cat":"Bunga"},{"nama":"Summer Flower","link":"https://s.shopee.co.id/5LA53X8osC","cat":"Bunga"},{"nama":"EPC Designer Fashion Official","link":"https://s.shopee.co.id/6L2cFN50pR","cat":"Fashion"},{"nama":"Ataru Fashion Official Store","link":"https://s.shopee.co.id/30mAHFHhaz","cat":"Fashion"},{"nama":"AQILA FASHION Official Store","link":"https://s.shopee.co.id/3ViQsAFnaA","cat":"Fashion"},{"nama":"KAIA Fashion Official Store","link":"https://s.shopee.co.id/3LP0frGQv9","cat":"Fashion"},{"nama":"Magic Flower","link":"https://s.shopee.co.id/5VTVFq8BXF","cat":"Bunga"},{"nama":"Flower Palace","link":"https://s.shopee.co.id/5fmvS97YCI","cat":"Bunga"},{"nama":"My Heaven flower","link":"https://s.shopee.co.id/5q6LeS6urL","cat":"Bunga"},{"nama":"Flower-Star","link":"https://s.shopee.co.id/60Plql6HWO","cat":"Bunga"},{"nama":"ByFlowerinn","link":"https://s.shopee.co.id/6AjC345eBR","cat":"Bunga"},{"nama":"ILOVEBATUFLOWER","link":"https://s.shopee.co.id/6L2cFN50qU","cat":"Bunga"},{"nama":"Tales of Artificial Flowers","link":"https://s.shopee.co.id/6VM2Rg4NVX","cat":"Bunga"},{"nama":"Magenta flower","link":"https://s.shopee.co.id/40ehT5Dta4","cat":"Bunga"},{"nama":"Sunflower Babywear","link":"https://s.shopee.co.id/4Ay7fODGF7","cat":"Bunga"},{"nama":"Flower_Diary","link":"https://s.shopee.co.id/4LHXrhCcuA","cat":"Bunga"},{"nama":"FlowerWorld","link":"https://s.shopee.co.id/4Vay40BzZD","cat":"Bunga"},{"nama":"Ananda Flowers","link":"https://s.shopee.co.id/4fuOGJBMEG","cat":"Bunga"},{"nama":"Nova Flower","link":"https://s.shopee.co.id/4qDoScAitJ","cat":"Bunga"},{"nama":"Acacia.Flowers","link":"https://s.shopee.co.id/50XEevA5YM","cat":"Bunga"},{"nama":"BlueWaterFlowers","link":"https://s.shopee.co.id/30mAHFHhc2","cat":"Bunga"},{"nama":"EL FLOWER STORE","link":"https://s.shopee.co.id/3B5aTYH4H5","cat":"Bunga"},{"nama":"Artificial Flower & Daily Need","link":"https://s.shopee.co.id/3LP0frGQw8","cat":"Bunga"},{"nama":"memeyflower","link":"https://s.shopee.co.id/3ViQsAFnbB","cat":"Bunga"},{"nama":"Eternal.Flower","link":"https://s.shopee.co.id/3g1r4TFAGE","cat":"Bunga"},{"nama":"SunFlower Shop Id","link":"https://s.shopee.co.id/3qLHGmEWvH","cat":"Bunga"},{"nama":"MOON FLOWER CLOTHES","link":"https://s.shopee.co.id/1LdwIBO2zo","cat":"Bunga"},{"nama":"ZIEWI FASHION Official Store","link":"https://s.shopee.co.id/60Plql6HVP","cat":"Fashion"},{"nama":"Orenji Flower","link":"https://s.shopee.co.id/5AqerE9SDP","cat":"Bunga"},{"nama":"Home Flower Nawra","link":"https://s.shopee.co.id/2g9JsdIyHw","cat":"Bunga"},{"nama":"Gontiang Flower Store","link":"https://s.shopee.co.id/2qSk4wIKwz","cat":"Bunga"},{"nama":"flower home decoration","link":"https://s.shopee.co.id/1VxMUUNPer","cat":"Bunga"},{"nama":"Jogja Flower Corner","link":"https://s.shopee.co.id/1gGmgnMmJu","cat":"Bunga"},{"nama":"VISIONFLOWER","link":"https://s.shopee.co.id/1qaCt6M8yx","cat":"Bunga"},{"nama":"Cassano Flower","link":"https://s.shopee.co.id/20td5PLVe0","cat":"Bunga"},{"nama":"SyurgaFlower25","link":"https://s.shopee.co.id/2BD3HiKsJ3","cat":"Bunga"},{"nama":"Hilya flowerseeds","link":"https://s.shopee.co.id/2LWTU1KEy6","cat":"Bunga"},{"nama":"Flower City","link":"https://s.shopee.co.id/2VptgKJbd9","cat":"Bunga"},{"nama":"SERBA SERBI FLOWER","link":"https://s.shopee.co.id/18YhjT7hg","cat":"Bunga"},{"nama":"imflower","link":"https://s.shopee.co.id/BRyu2SUMj","cat":"Bunga"},{"nama":"Kasanga Hijau Flower","link":"https://s.shopee.co.id/LlP6LRr1m","cat":"Bunga"},{"nama":"bummi flowers","link":"https://s.shopee.co.id/W4pIeRDgp","cat":"Bunga"},{"nama":"Istana flower & gift","link":"https://s.shopee.co.id/gOFUxQaLs","cat":"Bunga"},{"nama":"IZNAY FASHION Official Store","link":"https://s.shopee.co.id/4LHXrhCct7","cat":"Fashion"},{"nama":"RAINSMORE FASHION","link":"https://s.shopee.co.id/5AqerE9SCK","cat":"Fashion"},{"nama":"FASHION POP38 Official Shop","link":"https://s.shopee.co.id/3B5aTYH4G0","cat":"Fashion"},{"nama":"NR fashion Official Store","link":"https://s.shopee.co.id/4Vay40BzY8","cat":"Fashion"},{"nama":"Alexa Fashion Official Store","link":"https://s.shopee.co.id/50XEevA5XJ","cat":"Fashion"},{"nama":"Prist Fashion Official Store","link":"https://s.shopee.co.id/4qDoScAisI","cat":"Fashion"},{"nama":"FLIDA FASHION Official Store","link":"https://s.shopee.co.id/4fuOGJBMDH","cat":"Fashion"},{"nama":"Pomelo Fashion Official Shop","link":"https://s.shopee.co.id/2qSk4wIKvy","cat":"Fashion"},{"nama":"ADA Fashion Official Store","link":"https://s.shopee.co.id/2g9JsdIyGx","cat":"Fashion"},{"nama":"Thalia Fashion Official Store","link":"https://s.shopee.co.id/1qaCt6M8xs","cat":"Fashion"},{"nama":"Yoyo Cool Fashion","link":"https://s.shopee.co.id/40ehT5DtZ5","cat":"Fashion"}];
+  const EMOJI = {"Bunga":"🌸","Aksesoris":"💍","Fashion":"👗","Lainnya":"🛍️"};
+  const listEl = document.getElementById('list');
+  const emptyEl = document.getElementById('empty');
+  const countEl = document.getElementById('count');
+  let cat = 'Semua', q = '';
+  function render() {
+    const ql = q.trim().toLowerCase();
+    const rows = DATA.filter(it =>
+      (cat === 'Semua' || it.cat === cat) &&
+      (!ql || it.nama.toLowerCase().includes(ql))
+    );
+    countEl.textContent = rows.length + ' toko';
+    emptyEl.style.display = rows.length ? 'none' : 'block';
+    listEl.innerHTML = rows.map(it =>
+      '<div class="card">' +
+        '<div class="ic">' + (EMOJI[it.cat] || '🛍️') + '</div>' +
+        '<div class="info"><div class="nm">' + it.nama.replace(/</g,'&lt;') + '</div>' +
+        '<div class="ct">' + it.cat + '</div></div>' +
+        '<a class="buy" href="' + it.link + '" target="_blank" rel="noopener nofollow">Belanja →</a>' +
+      '</div>'
+    ).join('');
+  }
+  document.getElementById('q').addEventListener('input', e => { q = e.target.value; render(); });
+  document.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    ch.classList.add('active'); cat = ch.dataset.cat; render();
+  }));
+  render();
+</script>
+</body>
+</html>
