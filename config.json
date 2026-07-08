@@ -6,14 +6,31 @@
   "cooldownDays": 7,
   "extraCommissionMultiplier": 2,
   "reelDurationSeconds": 9,
-  "keepLastOutputs": 12,
+  "keepLastOutputs": 20,
   "slots": {
+    "subuh": "REELS",
     "pagi": "REELS",
-    "siang": "STORIES",
+    "siang": "REELS",
+    "sore": "REELS",
     "malam": "REELS"
   },
   "linkInComment": true,
-  "commentTemplate": "🛒 Link {namaProduk} 👉 {link}\n\nCopy link di atas ya, langsung ke Shopee! 🛍️ #racunshopee",
-  "captionTemplate": "{teksPromosi}\n\n🔗 Link produk ada di KOMENTAR paling atas 👇\n(atau cek link di bio ya!)\n\n#shopeeaffiliate #shopeehaul #racunshopee #{keywordTag} #promoshopee #diskonshopee",
-  "linkInBioNote": "Link tidak bisa diklik di caption/komentar Instagram. 'Link di komen' hanya memudahkan orang copy. Taruh juga link di bio."
+  "commentTemplate": "🛒 Mau checkout {namaProduk}?\n👉 {link}\n\nCaranya gampang: link ada di BIO ya (ketuk foto profil di atas → klik link)! Yuk cus belanja mumpung lagi promo 🛍️🔥 #racunshopee",
+  "captionTemplate": "{teksPromosi}\n\n🔗 Cara ambil linknya: ketuk foto profil di atas 👆 lalu klik LINK DI BIO — semua toko ada di sana!\n(link juga aku taruh di komentar paling atas ya 👇)\n\n#shopeeaffiliate #shopeehaul #racunshopee #{keywordTag} #promoshopee #diskonshopee #checkoutdulu",
+  "captionVariants": [
+    "Guys, ini {namaProduk} lagi PROMO GEDE! 🔥 Jangan sampai nyesel gara-gara kehabisan ya 🥹",
+    "STOP scroll dulu! 🛑 {namaProduk} lagi diskon, mumpung murah langsung serbu ✨",
+    "Racun hari ini: {namaProduk} 😍 Yuk checkout bareng, dijamin nagih! 🛒",
+    "Rezeki anak sholeh nih ✨ {namaProduk} harga spesial, buruan sebelum naik lagi! 💸",
+    "Wishlist kamu kejawab! {namaProduk} lagi promo, cus checkout sekarang 🏃‍♀️💨",
+    "Cakep + murah = wajib punya! {namaProduk} nunggu kamu checkout nih 😎🛍️"
+  ],
+  "linkInBioNote": "Link tidak bisa diklik di caption/komentar Instagram. Link yang bisa diklik hanya di BIO. Reel & caption mengarahkan penonton ke BIO.",
+  "bio": {
+    "outPath": "docs/index.html",
+    "shopName": "Partner Shopping",
+    "handle": "",
+    "tagline": "Racun Shopee tiap hari! 🔥 Semua toko pilihan ada di sini — tinggal ketuk & checkout 🛒",
+    "featuredCount": 3
+  }
 }
