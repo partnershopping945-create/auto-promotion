@@ -25,6 +25,7 @@ import { loadProducts, scoreProducts } from "./lib/products.js";
 import { loadState, saveState, pickNextProduct, markPosted } from "./lib/state.js";
 import { generateImage, generateReelVideo, categorizeProduct, pickMusic } from "./lib/media.js";
 import { publish, postComment } from "./lib/instagram.js";
+import { buildBioPage } from "./lib/bio.js";
 
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
 const args = process.argv.slice(2);
@@ -35,10 +36,13 @@ function detectSlot() {
     const argSlot = args.find(a => a.startsWith("--slot="));
     if (argSlot) return argSlot.split("=")[1];
     if (process.env.SLOT) return process.env.SLOT;
+    // 5 slot per hari (WIB). Cocok dengan jadwal cron di workflow.
     const wibHour = (new Date().getUTCHours() + 7) % 24;
-    if (wibHour < 11) return "pagi";
-    if (wibHour < 16) return "siang";
-    return "malam";
+    if (wibHour < 9) return "subuh";   // ~07:00
+    if (wibHour < 13) return "pagi";   // ~11:00
+    if (wibHour < 17) return "siang";  // ~15:00
+    if (wibHour < 20) return "sore";   // ~19:00
+    return "malam";                    // ~21:00
 }
 
 function git(...cmd) {
@@ -81,9 +85,15 @@ async function waitForUrl(url, timeoutMs = 90_000) {
     throw new Error(`File media belum bisa diakses publik: ${url}`);
 }
 
-function buildCaption(product) {
+function buildCaption(product, seed = 0) {
+    // Pakai kalimat yang FUN & memotivasi (bergilir) daripada teks CSV yang kaku.
+    const variants = config.captionVariants;
+    let teks = product.teksPromosi || `Cek ${product.namaProduk} di Shopee!`;
+    if (Array.isArray(variants) && variants.length) {
+        teks = variants[seed % variants.length].replaceAll("{namaProduk}", product.namaProduk);
+    }
     return config.captionTemplate
-        .replaceAll("{teksPromosi}", product.teksPromosi || `Cek ${product.namaProduk} di Shopee!`)
+        .replaceAll("{teksPromosi}", teks)
         .replaceAll("{link}", product.linkAffiliate)
         .replaceAll("{namaProduk}", product.namaProduk)
         .replaceAll("{keywordTag}", product.keyword.replace(/[^a-z0-9]/g, ""));
@@ -103,6 +113,25 @@ async function main() {
     const state = loadState(config.statePath);
     const product = pickNextProduct(scored, state, config.cooldownDays);
     console.log(`🏆 Produk terpilih: ${product.namaProduk} (komisi ${product.komisiPersen}%, skor ${product.priorityScore}, rank #${product.priorityRank})`);
+
+    // Bangun ulang halaman "link in bio" (docs/index.html) dari SELURUH produk.
+    // Ini satu-satunya link yang bisa diklik dari Instagram (lewat bio).
+    if (config.bio) {
+        const updated = new Date().toLocaleDateString("id-ID", {
+            day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta"
+        });
+        // "Terbaru" = produk paling baru ditambahkan ke CSV (baris paling bawah).
+        const featCount = config.bio.featuredCount || 3;
+        const featured = products.slice(-featCount).reverse();
+        const bioPath = buildBioPage(scored, config.bio.outPath || "docs/index.html", {
+            shopName: config.bio.shopName,
+            handle: config.bio.handle,
+            tagline: config.bio.tagline,
+            featured,
+            updated
+        });
+        console.log(`🔗 Halaman link-in-bio diperbarui: ${bioPath} (${scored.length} toko)`);
+    }
 
     // 2. Generate media
     const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
@@ -124,7 +153,7 @@ async function main() {
         console.log(`🎬 Video Reel dibuat: ${mediaPath}`);
     }
 
-    const caption = buildCaption(product);
+    const caption = buildCaption(product, state.history.length);
     console.log(`📝 Caption:\n${caption}\n`);
 
     if (DRY_RUN) {
@@ -139,7 +168,9 @@ async function main() {
 
     const deleted = cleanupOldOutputs(config.outputDir, config.keepLastOutputs);
     if (deleted.length) console.log(`🧹 Hapus ${deleted.length} media lama.`);
-    gitCommitPush([config.outputDir], `media: ${product.namaProduk} (${slot}/${mediaType})`);
+    const bioDir = config.bio ? path.dirname(config.bio.outPath || "docs/index.html") : null;
+    const toCommit = bioDir ? [config.outputDir, bioDir] : [config.outputDir];
+    gitCommitPush(toCommit, `media: ${product.namaProduk} (${slot}/${mediaType})`);
 
     const mediaUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${mediaPath.replace(/\\/g, "/")}`;
     console.log(`🔗 URL media publik: ${mediaUrl}`);
