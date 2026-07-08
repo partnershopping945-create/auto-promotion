@@ -56,71 +56,152 @@ function wrapText(text, maxChars) {
     return lines.slice(0, 4);
 }
 
-function buildSvg(product) {
-    const [c1, c2] = PALETTES[hashCode(product.namaProduk) % PALETTES.length];
+// Kata kunci pencarian foto stok per kategori (Pexels)
+const STOCK_QUERIES = {
+    upbeat: ["fashion outfit", "clothing boutique", "fashion model", "woman shopping fashion"],
+    trendy: ["jewelry accessories", "fashion accessories", "wristwatch luxury", "handbag fashion"],
+    soft: ["flower bouquet", "fresh flowers", "floral arrangement", "roses bunch"]
+};
+
+/**
+ * Ambil foto stok gratis dari Pexels sesuai kategori produk.
+ * Perlu env PEXELS_API_KEY (gratis). Return path file atau null kalau tidak ada
+ * key / gagal (otomatis fallback ke desain gradien).
+ */
+export async function fetchStockPhoto(category, seed, outPath) {
+    const key = process.env.PEXELS_API_KEY;
+    if (!key) return null;
+    const queries = STOCK_QUERIES[category] || STOCK_QUERIES.upbeat;
+    const query = queries[Math.abs(seed) % queries.length];
+    try {
+        const res = await fetch(
+            `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&orientation=portrait&size=large&per_page=30`,
+            { headers: { Authorization: key } }
+        );
+        if (!res.ok) return null;
+        const data = await res.json();
+        const photos = data.photos || [];
+        if (!photos.length) return null;
+        const photo = photos[Math.abs(seed * 7 + 3) % photos.length];
+        const url = photo.src && (photo.src.portrait || photo.src.large2x || photo.src.large);
+        if (!url) return null;
+        const imgRes = await fetch(url);
+        if (!imgRes.ok) return null;
+        fs.writeFileSync(outPath, Buffer.from(await imgRes.arrayBuffer()));
+        console.log(`📸 Foto stok "${query}" diambil dari Pexels.`);
+        return outPath;
+    } catch {
+        return null;
+    }
+}
+
+function imageToDataUri(imgPath) {
+    const buf = fs.readFileSync(imgPath);
+    const ext = path.extname(imgPath).toLowerCase();
+    const mime = ext === ".png" ? "image/png" : "image/jpeg";
+    return `data:${mime};base64,${buf.toString("base64")}`;
+}
+
+function featuredBadgeSvg(product, y) {
+    if (!product.extraMasihBerlaku) return "";
+    return `<g transform="translate(540 ${y})">
+        <rect x="-360" y="-62" width="720" height="124" rx="62" fill="#FFD700"/>
+        <text x="0" y="16" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+              font-size="52" font-weight="bold" fill="#7A1F00">★ PILIHAN HARI INI ★</text>
+      </g>`;
+}
+
+// Desain gradien (fallback kalau tidak ada foto stok)
+function buildGradientSvg(product) {
+    const [c1] = PALETTES[hashCode(product.namaProduk) % PALETTES.length];
+    const c2 = PALETTES[hashCode(product.namaProduk) % PALETTES.length][1];
     const nameLines = wrapText(product.namaProduk, 16);
     const nameSize = nameLines.length >= 3 ? 88 : 104;
-
-    // Nama produk jadi "hero", diletakkan di tengah kanvas secara vertikal
-    const nameCenterY = 980;
-    const nameStartYHero = nameCenterY - (nameLines.length - 1) * (nameSize * 0.575);
+    const nameStartYHero = 980 - (nameLines.length - 1) * (nameSize * 0.575);
     const nameTspans = nameLines
         .map((l, i) => `<tspan x="540" dy="${i === 0 ? 0 : nameSize * 1.15}">${esc(l)}</tspan>`)
         .join("");
 
-    // Badge buyer-facing (BUKAN komisi). Muncul untuk produk yang sedang diprioritaskan.
-    const featuredBadge = product.extraMasihBerlaku ? `
-      <g transform="translate(540 430)">
-        <rect x="-360" y="-62" width="720" height="124" rx="62" fill="#FFD700"/>
-        <text x="0" y="16" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-              font-size="52" font-weight="bold" fill="#7A1F00">★ PILIHAN HARI INI ★</text>
-      </g>` : "";
-
     return `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${c1}"/>
-      <stop offset="100%" stop-color="${c2}"/>
+      <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
     </linearGradient>
     <radialGradient id="glow" cx="0.5" cy="0.35" r="0.8">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
   </defs>
-
   <rect width="${W}" height="${H}" fill="url(#bg)"/>
   <rect width="${W}" height="${H}" fill="url(#glow)"/>
-
-  <!-- lingkaran dekoratif -->
   <circle cx="80" cy="180" r="200" fill="#ffffff" opacity="0.08"/>
   <circle cx="1020" cy="1750" r="260" fill="#ffffff" opacity="0.08"/>
   <circle cx="980" cy="300" r="90" fill="#ffffff" opacity="0.10"/>
-  <circle cx="120" cy="1400" r="130" fill="#ffffff" opacity="0.07"/>
-
   <text x="540" y="250" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
-        font-size="46" font-weight="bold" fill="#ffffff" opacity="0.9"
-        letter-spacing="8">PROMO SHOPEE HARI INI</text>
-
-  ${featuredBadge}
-
-  <!-- nama produk / toko (hero) -->
+        font-size="46" font-weight="bold" fill="#ffffff" opacity="0.9" letter-spacing="8">PROMO SHOPEE HARI INI</text>
+  ${featuredBadgeSvg(product, 430)}
   <text x="540" y="${nameStartYHero}" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
         font-size="${nameSize}" font-weight="bold" fill="#ffffff">${nameTspans}</text>
-
-  <!-- subjudul buyer-facing -->
   <text x="540" y="1250" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
         font-size="52" fill="#ffffff" opacity="0.95">Koleksi terbaru &amp; harga spesial ✨</text>
-
-  <!-- CTA -->
   <g transform="translate(540 1520)">
     <rect x="-440" y="-78" width="880" height="156" rx="78" fill="#ffffff"/>
     <text x="0" y="20" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
           font-size="56" font-weight="bold" fill="${c1}">➜ Cek link di bio!</text>
   </g>
-
   <text x="540" y="1810" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
         font-size="38" fill="#ffffff" opacity="0.85">s.shopee.co.id • cek caption untuk detail</text>
 </svg>`;
+}
+
+// Desain foto: foto stok full-bleed + scrim gelap + teks di bawah
+function buildPhotoSvg(product, photoDataUri) {
+    const [c1] = PALETTES[hashCode(product.namaProduk) % PALETTES.length];
+    const nameLines = wrapText(product.namaProduk, 18);
+    const nameSize = nameLines.length >= 3 ? 82 : 96;
+    const nameBottomY = 1440;
+    const nameStartY = nameBottomY - (nameLines.length - 1) * (nameSize * 1.12);
+    const nameTspans = nameLines
+        .map((l, i) => `<tspan x="540" dy="${i === 0 ? 0 : nameSize * 1.12}">${esc(l)}</tspan>`)
+        .join("");
+
+    return `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="scrimTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="scrimBottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="45%" stop-color="#000000" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <image xlink:href="${photoDataUri}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/>
+  <rect x="0" y="0" width="${W}" height="520" fill="url(#scrimTop)"/>
+  <rect x="0" y="820" width="${W}" height="1100" fill="url(#scrimBottom)"/>
+
+  <text x="540" y="150" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+        font-size="44" font-weight="bold" fill="#ffffff" letter-spacing="7">PROMO SHOPEE HARI INI</text>
+  ${featuredBadgeSvg(product, 300)}
+
+  <text x="540" y="${nameStartY}" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+        font-size="${nameSize}" font-weight="bold" fill="#ffffff">${nameTspans}</text>
+  <text x="540" y="1540" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+        font-size="46" fill="#ffffff" opacity="0.95">Koleksi terbaru &amp; harga spesial ✨</text>
+
+  <g transform="translate(540 1690)">
+    <rect x="-430" y="-72" width="860" height="144" rx="72" fill="#ffffff"/>
+    <text x="0" y="18" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+          font-size="52" font-weight="bold" fill="${c1}">➜ Cek link di komen &amp; bio!</text>
+  </g>
+  <text x="540" y="1850" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+        font-size="34" fill="#ffffff" opacity="0.8">s.shopee.co.id • link di komentar</text>
+</svg>`;
+}
+
+function buildSvg(product, photoDataUri = null) {
+    return photoDataUri ? buildPhotoSvg(product, photoDataUri) : buildGradientSvg(product);
 }
 
 function hasCommand(cmd) {
@@ -143,9 +224,22 @@ function findChrome() {
     return null;
 }
 
-export async function generateImage(product, outPath) {
-    const svg = buildSvg(product);
+export async function generateImage(product, outPath, seed = 0) {
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
+
+    // Coba ambil foto stok sesuai kategori. Kalau ada -> foto jadi background.
+    // Kalau tidak (no API key / gagal) -> otomatis pakai desain gradien.
+    const category = categorizeProduct(product);
+    const photoPath = outPath.replace(/\.png$/, ".bg.jpg");
+    let photoDataUri = null;
+    const gotPhoto = await fetchStockPhoto(category, seed, photoPath);
+    if (gotPhoto) {
+        photoDataUri = imageToDataUri(photoPath);
+    } else {
+        console.log("🎨 Tidak ada foto stok (PEXELS_API_KEY belum diset / gagal) -> pakai desain gradien.");
+    }
+
+    const svg = buildSvg(product, photoDataUri);
     const svgPath = outPath.replace(/\.png$/, ".svg");
     fs.writeFileSync(svgPath, svg);
 
@@ -170,6 +264,7 @@ export async function generateImage(product, outPath) {
     }
 
     fs.rmSync(svgPath); // file svg sementara tidak perlu di-commit
+    if (photoDataUri && fs.existsSync(photoPath)) fs.rmSync(photoPath); // hapus foto bg sementara
     return outPath;
 }
 

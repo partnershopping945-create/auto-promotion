@@ -12,7 +12,10 @@
  *   3. POST /{ig-user-id}/media_publish  -> tayang!
  */
 
-const GRAPH = "https://graph.instagram.com/v21.0";
+// Metode Facebook Login (token dari Graph API Explorer).
+// Publikasi lewat graph.facebook.com; IG_USER_ID = Instagram Business Account ID
+// yang terhubung ke Facebook Page.
+const GRAPH = "https://graph.facebook.com/v21.0";
 
 async function graphFetch(url, options = {}) {
     const res = await fetch(url, options);
@@ -87,6 +90,21 @@ export async function getPermalink({ mediaId, accessToken }) {
     } catch {
         return null; // Stories tidak selalu punya permalink — bukan error fatal
     }
+}
+
+/**
+ * Tulis komentar di media milik sendiri (mis. link affiliate).
+ * Butuh izin instagram_business_manage_comments (sudah termasuk di use case
+ * "Kelola pesan & konten di Instagram"). Non-fatal: kalau gagal, posting utama
+ * tetap dianggap sukses.
+ */
+export async function postComment({ mediaId, accessToken, message }) {
+    const params = new URLSearchParams({ access_token: accessToken, message });
+    const data = await graphFetch(`${GRAPH}/${mediaId}/comments`, {
+        method: "POST",
+        body: params
+    });
+    return data.id;
 }
 
 /** Publish lengkap: container -> tunggu -> tayang. */

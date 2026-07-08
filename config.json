@@ -12,6 +12,8 @@
     "siang": "STORIES",
     "malam": "REELS"
   },
-  "captionTemplate": "{teksPromosi}\n\n🛒 Link produk: {link}\n(atau klik link di bio ya!)\n\n#shopeeaffiliate #shopeehaul #racunshopee #{keywordTag} #promoshopee #diskonshopee",
-  "linkInBioNote": "Link tidak bisa diklik di caption Instagram. Taruh link terbaru di bio, atau pakai landing page gratis (lihat PANDUAN_SETUP.md bagian 7)."
+  "linkInComment": true,
+  "commentTemplate": "🛒 Link {namaProduk} 👉 {link}\n\nCopy link di atas ya, langsung ke Shopee! 🛍️ #racunshopee",
+  "captionTemplate": "{teksPromosi}\n\n🔗 Link produk ada di KOMENTAR paling atas 👇\n(atau cek link di bio ya!)\n\n#shopeeaffiliate #shopeehaul #racunshopee #{keywordTag} #promoshopee #diskonshopee",
+  "linkInBioNote": "Link tidak bisa diklik di caption/komentar Instagram. 'Link di komen' hanya memudahkan orang copy. Taruh juga link di bio."
 }

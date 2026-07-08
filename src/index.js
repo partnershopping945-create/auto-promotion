@@ -24,7 +24,7 @@ import { execFileSync } from "node:child_process";
 import { loadProducts, scoreProducts } from "./lib/products.js";
 import { loadState, saveState, pickNextProduct, markPosted } from "./lib/state.js";
 import { generateImage, generateReelVideo, categorizeProduct, pickMusic } from "./lib/media.js";
-import { publish } from "./lib/instagram.js";
+import { publish, postComment } from "./lib/instagram.js";
 
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
 const args = process.argv.slice(2);
@@ -108,7 +108,7 @@ async function main() {
     const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
     const baseName = `post-${stamp}`;
     const imagePath = path.join(config.outputDir, `${baseName}.png`);
-    await generateImage(product, imagePath);
+    await generateImage(product, imagePath, state.history.length);
     console.log(`🖼️  Gambar dibuat: ${imagePath}`);
 
     let mediaPath = imagePath;
@@ -158,6 +158,19 @@ async function main() {
         caption: mediaType === "REELS" ? caption : undefined
     });
     console.log(`✅ TAYANG! media id: ${mediaId}${permalink ? ` -> ${permalink}` : ""}`);
+
+    // 4b. (Opsional) Tulis link affiliate sebagai komentar di post sendiri
+    if (config.linkInComment) {
+        try {
+            const commentMsg = (config.commentTemplate || "🛒 Link produk: {link}")
+                .replaceAll("{link}", product.linkAffiliate)
+                .replaceAll("{namaProduk}", product.namaProduk);
+            const commentId = await postComment({ mediaId, accessToken, message: commentMsg });
+            console.log(`💬 Komentar link ditambahkan (id: ${commentId})`);
+        } catch (err) {
+            console.log(`⚠️  Gagal menambahkan komentar (posting utama tetap sukses): ${err.message}`);
+        }
+    }
 
     // 5. Simpan state
     markPosted(state, product, mediaType, permalink);
