@@ -15,7 +15,7 @@
 // Metode Facebook Login (token dari Graph API Explorer).
 // Publikasi lewat graph.facebook.com; IG_USER_ID = Instagram Business Account ID
 // yang terhubung ke Facebook Page.
-const GRAPH = "https://graph.facebook.com/v21.0";
+const GRAPH = "https://graph.instagram.com/v21.0";
 
 async function graphFetch(url, options = {}) {
     const res = await fetch(url, options);
