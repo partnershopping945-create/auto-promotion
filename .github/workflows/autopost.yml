@@ -17,16 +17,18 @@ name: Auto Post Instagram
 
 on:
   schedule:
-    - cron: "0 1 * * *"    # 08:00 WIB
-    - cron: "30 5 * * *"   # 12:30 WIB
-    - cron: "0 12 * * *"   # 19:00 WIB
+    - cron: "0 0 * * *"    # 07:00 WIB (subuh)
+    - cron: "0 4 * * *"    # 11:00 WIB (pagi)
+    - cron: "0 8 * * *"    # 15:00 WIB (siang)
+    - cron: "0 12 * * *"   # 19:00 WIB (sore)
+    - cron: "0 14 * * *"   # 21:00 WIB (malam)
   workflow_dispatch:
     inputs:
       slot:
         description: "Slot posting (kosongkan untuk deteksi otomatis dari jam)"
         required: false
         type: choice
-        options: ["", "pagi", "siang", "malam"]
+        options: ["", "subuh", "pagi", "siang", "sore", "malam"]
       dry_run:
         description: "Dry run (generate media saja, tanpa publish)"
         required: false
