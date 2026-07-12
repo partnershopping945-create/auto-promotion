@@ -289,6 +289,9 @@ export function categorizeProduct(product) {
  * @param {number} seed      angka untuk memilih track secara berputar (rotasi)
  */
 export function pickMusic(musicDir, mood, seed = 0) {
+    // Satu lagu tetap untuk SEMUA reel: kalau ada assets/music/soundtrack.mp3, selalu pakai itu.
+    const fixed = path.join(musicDir, "soundtrack.mp3");
+    if (fs.existsSync(fixed)) return fixed;
     const exts = /\.(mp3|m4a|aac|wav|ogg)$/i;
     const candidates = [];
 
