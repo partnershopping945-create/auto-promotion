@@ -1,0 +1,102 @@
+# =====================================================================
+# AUTO-POST PROMOSI SHOPEE KE TIKTOK — TERPISAH dari Instagram
+#
+# Cara pakai:
+#   • MANUAL (untuk tes / rekam demo audit):
+#       tab Actions > "Auto Post TikTok" > Run workflow
+#       (centang "dry_run" kalau cuma mau bikin videonya tanpa posting)
+#   • OTOMATIS: jadwal di bawah masih DINONAKTIFKAN (di-comment).
+#       Aktifkan HANYA setelah app TikTok LOLOS AUDIT dan
+#       secret TIKTOK_PRIVACY sudah diubah jadi PUBLIC_TO_EVERYONE.
+#       Caranya: hapus tanda "#" di depan baris "schedule:" dan "- cron:".
+#
+# Secrets WAJIB (Settings > Secrets and variables > Actions):
+#   TIKTOK_CLIENT_KEY     -> Client key dari TikTok Developer (sandbox)
+#   TIKTOK_CLIENT_SECRET  -> Client secret
+#   TIKTOK_REFRESH_TOKEN  -> refresh_token (berlaku 1 tahun)
+# Secret OPSIONAL:
+#   TIKTOK_PRIVACY        -> "SELF_ONLY" (default, privat) atau "PUBLIC_TO_EVERYONE" (setelah audit)
+#   PEXELS_API_KEY        -> untuk foto stok (kalau kosong, pakai desain gradien)
+# =====================================================================
+
+name: Auto Post TikTok
+
+on:
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot (kosongkan untuk deteksi otomatis dari jam)"
+        required: false
+        type: choice
+        options: ["", "pagi", "siang", "malam"]
+      dry_run:
+        description: "Dry run (bikin video saja, TIDAK posting)"
+        required: false
+        type: boolean
+        default: false
+  # ---- JADWAL OTOMATIS (masih OFF — aktifkan setelah audit lolos) ----
+  # schedule:
+  #   - cron: "22 5 * * *"   # 12:22 WIB
+  #   - cron: "22 13 * * *"  # 20:22 WIB
+
+concurrency:
+  group: tiktok-autopost
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install renderer SVG (librsvg)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin fonts-dejavu-core
+        # ffmpeg sudah preinstalled di runner ubuntu-latest.
+
+      - name: Setup git identity
+        run: |
+          git config user.name "auto-post-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Post ke TikTok
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_PRIVACY: ${{ secrets.TIKTOK_PRIVACY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          SLOT: ${{ inputs.slot }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node src/tiktok-post.js --dry-run
+          else
+            node src/tiktok-post.js
+          fi
+
+      - name: Simpan rotasi produk (commit state)
+        if: ${{ inputs.dry_run != 'true' }}
+        run: |
+          git add state/tiktok-state.json 2>/dev/null || true
+          git commit -m "chore(tiktok): update rotasi produk [skip ci]" || echo "tidak ada perubahan state"
+          git push || echo "push dilewati"
+
+      - name: Upload video sebagai artifact (arsip/demo)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tiktok-media-${{ github.run_id }}
+          path: output/tt-*
+          retention-days: 7
+          if-no-files-found: ignore
