@@ -62,7 +62,7 @@ jobs:
           node-version: "20"
 
       - name: Install renderer SVG (librsvg)
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin fonts-dejavu-core
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg librsvg2-bin fonts-dejavu-core
         # ffmpeg sudah preinstalled di runner ubuntu-latest.
 
       - name: Setup git identity
